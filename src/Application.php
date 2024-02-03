@@ -16,17 +16,20 @@ declare(strict_types=1);
  */
 namespace App;
 
+use Cake\Http\Client;
 use Cake\Core\Configure;
-use Cake\Core\ContainerInterface;
-use Cake\Datasource\FactoryLocator;
-use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
-use Cake\Http\Middleware\BodyParserMiddleware;
-use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
+use Cake\Core\ContainerInterface;
 use Cake\ORM\Locator\TableLocator;
+use Cake\Datasource\FactoryLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
+use App\Service\Weather\OpenWeatherApiService;
+use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use App\Controller\WeatherController;
 
 /**
  * Application setup class.
@@ -113,6 +116,14 @@ class Application extends BaseApplication
      */
     public function services(ContainerInterface $container): void
     {
+        $container->add(\App\Service\Weather\OpenWeatherApiService::class, function () {
+            return new \App\Service\Weather\OpenWeatherApiService();
+        });
+
+        // $container->add(WeatherController::class, function () use ($container) {
+        //     return new WeatherController($container->get(\App\Service\Weather\OpenWeatherApiService::class));
+        // });
+
     }
 
     /**
