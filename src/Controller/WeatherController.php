@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Http\Client;
-use Cake\Http\Client\Request;
+use App\Service\Weather\WeatherApiService;
 use App\Service\Weather\OpenWeatherApiService;
 
 /**
@@ -14,12 +14,6 @@ use App\Service\Weather\OpenWeatherApiService;
  */
 class WeatherController extends AppController
 {
-    // public $owApiService;
-    // public function __construct(\App\Service\Weather\OpenWeatherApiService $owApiService)
-    // {
-    //     $this->owApiService = $owApiService;
-    // }
-
     /**
      * Index method
      *
@@ -27,12 +21,11 @@ class WeatherController extends AppController
      */
     public function index()
     {
-        $owApiService = new OpenWeatherApiService();
-        $weather = $owApiService->getWeather('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99');
+        $weatherService = new WeatherApiService(new OpenWeatherApiService(new Client()));
+        $weather = $weatherService->getWeather('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99');
 
         $this->set([
             'weather' => $weather,
-            //'_serialize' => ['weather']
         ]);
     }
 

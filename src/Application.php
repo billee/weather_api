@@ -23,13 +23,14 @@ use Cake\Http\MiddlewareQueue;
 use Cake\Core\ContainerInterface;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Datasource\FactoryLocator;
+use App\Controller\WeatherController;
+use App\Service\Weather\WeatherApiService;
 use Cake\Routing\Middleware\AssetMiddleware;
 use App\Service\Weather\OpenWeatherApiService;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
-use App\Controller\WeatherController;
 
 /**
  * Application setup class.
@@ -116,14 +117,9 @@ class Application extends BaseApplication
      */
     public function services(ContainerInterface $container): void
     {
-        $container->add(\App\Service\Weather\OpenWeatherApiService::class, function () {
-            return new \App\Service\Weather\OpenWeatherApiService();
-        });
-
-        // $container->add(WeatherController::class, function () use ($container) {
-        //     return new WeatherController($container->get(\App\Service\Weather\OpenWeatherApiService::class));
+        // $container->add(WeatherApiService::class, function () {
+        //     return new WeatherApiService(new OpenWeatherApiService(new Client()));
         // });
-
     }
 
     /**
