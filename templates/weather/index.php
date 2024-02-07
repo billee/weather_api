@@ -7,7 +7,7 @@
 
 
 
-
+<!-- This is the response from the api -->
 <pre>
 <?= print_r($weather, true) ?>
 </pre>
